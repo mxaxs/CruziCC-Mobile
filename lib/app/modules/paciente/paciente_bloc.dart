@@ -1,29 +1,32 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:cruzicc_v2/app/models/paciente.dart';
+import '../../models/paciente.dart';
 import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
-import 'dart:async';
 
 class PacienteBloc extends BlocBase {
+  PacienteModel _paciente;
+
   final BehaviorSubject _pacienteController$ = BehaviorSubject();
   Sink get pacienteInput => _pacienteController$.sink;
   Stream get pacienteOutput =>
-      _pacienteController$.stream.asyncMap((data) => loadPaciente(data));
+      _pacienteController$.stream.asyncMap((data) => _paciente);
 
   void getPaciente(xleito, xid) {
     var data = {'leito': xleito, 'id': xid};
     pacienteInput.add(data);
   }
 
+  PacienteModel get gPaciente => _paciente;
+
   Future loadPaciente(data) async {
-    final leito = data.leito; //'02';
-    final id = data.id; //'5ded72080b6d1c046eb9d7a7';
+    final leito = data["leito"]; //'02';
+    final id = data["id"]; //'5ded72080b6d1c046eb9d7a7';
     var url = 'https://api-rest.in/api/paciente/$leito/$id';
     var dio = Dio();
 
     try {
       Response response = await dio.get(url);
-      var _paciente = PacienteModel.fromJson(response.data);
+      _paciente = PacienteModel.fromJson(response.data);
       //_leitos = response.data["0"]["leitos"];
       print('api on pacienteBlock - ' + DateTime.now().toString());
       return _paciente;
@@ -42,7 +45,11 @@ class PacienteBloc extends BlocBase {
     }
   }
 
-  //dispose will be called automatically by closing its streams
+  void updatePaciente(paciente) {
+    _paciente = paciente;
+    pacienteInput.add(true);
+  }
+
   @override
   void dispose() {
     _pacienteController$.close();

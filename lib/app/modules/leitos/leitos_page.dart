@@ -43,7 +43,7 @@ class _LeitosPageState extends State<LeitosPage> {
 
   imageB64(String base64String) {
     final UriData data = Uri.parse(base64String).data;
-    print('leitos_page:' + data.isBase64.toString()); // Should print true
+    print('LEITOS_PAGE:' + data.isBase64.toString()); // Should print true
     return data.contentAsBytes();
   }
 

@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: InputBorder.none,
                             hasFloatingPlaceholder: true,
                             //border: OutlineInputBorder(),
-                            labelText: 'Usuรกrio',
+                            labelText: 'Usuário',
                             labelStyle:
                                 TextStyle(color: Colors.black, fontSize: 18),
                           ),

@@ -16,7 +16,7 @@ class LeitosBloc extends BlocBase {
     try {
       Response response = await dio.get(url);
 
-      var _leitos = LeitosModel.fromJson(response.data);
+      final _leitos = LeitosModel.fromJson(response.data);
 
       //_leitos = response.data["0"]["leitos"];
       print('api on leitosBlock - ' + DateTime.now().toString());
